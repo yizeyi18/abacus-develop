@@ -399,7 +399,7 @@ else()
   find_package(FFTW3 REQUIRED)
   find_package(LAPACK REQUIRED)
   include_directories(${FFTW3_INCLUDE_DIRS})
-  list(APPEND math_libs FFTW3::FFTW3 LAPACK::LAPACK)
+  list(APPEND math_libs FFTW3::FFTW3 LAPACK::LAPACK BLAS::BLAS)
 
   if(ENABLE_LCAO)
     find_package(ScaLAPACK REQUIRED)
