@@ -9,17 +9,16 @@ endif()
 # NO REQUIRED here, otherwhile it would throw error
 # with no LibXC found.
 find_package(PkgConfig)
-pkg_search_module(Libxc IMPORTED_TARGET GLOBAL libxc)
-#find_package_handle_standard_args(Libxc DEFAULT_MSG Libxc_LINK_LIBRARIES Libxc_INCLUDE_DIRS)
-
-if(NOT DEFINED Libxc_LINK_LIBRARIES OR NOT DEFINED Libxc_INCLUDE_DIRS)
+if(PKG_CONFIG_FOUND)
+  pkg_search_module(Libxc IMPORTED_TARGET GLOBAL libxc)
+  find_package_handle_standard_args(Libxc DEFAULT_MSG Libxc_LINK_LIBRARIES Libxc_INCLUDE_DIRS)
+endif()
+if(NOT Libxc_FOUND)
   find_package(Libxc REQUIRED HINTS
     ${Libxc_DIR}/share/cmake/Libxc
     ${Libxc_DIR}/lib/cmake/Libxc
     ${Libxc_DIR}/lib64/cmake/Libxc
   )
-else()
-  find_package_handle_standard_args(Libxc DEFAULT_MSG Libxc_LINK_LIBRARIES Libxc_INCLUDE_DIRS)
 endif()
 
 # Copy the results to the output variables and target.
