@@ -5,8 +5,10 @@
 #  LAPACK_FOUND         - True if ScaLAPACK is found.
 #
 
+find_package(BLAS REQUIRED)
+
 find_library(LAPACK_LIBRARY
-    NAMES openblas blas
+    NAMES openblas lapack flame
     HINTS ${LAPACK_DIR}
     PATH_SUFFIXES "lib"
 )
