@@ -46,6 +46,7 @@ ELPA_Solver::ELPA_Solver(const bool isReal,
     allocate_work();
     // cout<<"work array is inited\n";
     if (isReal)
+    {
         kernel_id = read_real_kernel();
 #if ELPA_WITH_NVIDIA_GPU_VERSION    
         useGPU = (kernel_id == ELPA_2STAGE_REAL_NVIDIA_GPU || kernel_id == ELPA_2STAGE_REAL_NVIDIA_SM80_GPU);
@@ -54,7 +55,9 @@ ELPA_Solver::ELPA_Solver(const bool isReal,
 #elif ELPA_WITH_SYCL_GPU_VERSION
         useGPU = (kernel_id == ELPA_2STAGE_REAL_INTEL_GPU_SYCL);
 #endif
+    }
     else
+    {
         kernel_id = read_complex_kernel();
 #if ELPA_WITH_NVIDIA_GPU_VERSION
         useGPU = (kernel_id == ELPA_2STAGE_COMPLEX_NVIDIA_GPU || kernel_id == ELPA_2STAGE_COMPLEX_NVIDIA_SM80_GPU);
@@ -63,6 +66,7 @@ ELPA_Solver::ELPA_Solver(const bool isReal,
 #elif ELPA_WITH_SYCL_GPU_VERSION
         useGPU = (kernel_id == ELPA_2STAGE_COMPLEX_INTEL_GPU_SYCL);
 #endif
+    }
     // cout<<"kernel id is inited as "<<kernel_id<<"\n";
     int error;
 
