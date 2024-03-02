@@ -386,8 +386,8 @@ int ELPA_Solver::read_real_kernel()
 	    kernel_id = ELPA_2STAGE_REAL_NVIDIA_GPU;
 	else if (strcmp(env, "ELPA_2STAGE_REAL_AMD_GPU") == 0)
             kernel_id = ELPA_2STAGE_REAL_AMD_GPU;
-	else if (strcmp(env, "ELPA_2STAGE_REAL_INTEL_SYCL_GPU") == 0)
-            kernel_id = ELPA_2STAGE_REAL_INTEL_SYCL_GPU;
+	else if (strcmp(env, "ELPA_2STAGE_REAL_INTEL_GPU_SYCL") == 0)
+            kernel_id = ELPA_2STAGE_REAL_INTEL_GPU_SYCL;
 	else if (strcmp(env, "ELPA_2STAGE_REAL_NVIDIA_SM80_GPU") == 0)
             kernel_id = ELPA_2STAGE_REAL_NVIDIA_SM80_GPU;
 	else
