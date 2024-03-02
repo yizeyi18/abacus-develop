@@ -47,8 +47,22 @@ ELPA_Solver::ELPA_Solver(const bool isReal,
     // cout<<"work array is inited\n";
     if (isReal)
         kernel_id = read_real_kernel();
+#if ELPA_WITH_NVIDIA_GPU_VERSION    
+        useGPU = (kernel_id == ELPA_2STAGE_REAL_NVIDIA_GPU || kernel_id == ELPA_2STAGE_REAL_NVIDIA_SM80_GPU);
+#elif ELPA_WITH_AMD_GPU_VERSION
+        useGPU = (kernel_id == ELPA_2STAGE_REAL_AMD_GPU);
+#elif ELPA_WITH_SYCL_GPU_VERSION
+        useGPU = (kernel_id == ELPA_2STAGE_REAL_INTEL_GPU_SYCL);
+#endif
     else
         kernel_id = read_complex_kernel();
+#if ELPA_WITH_NVIDIA_GPU_VERSION
+        useGPU = (kernel_id == ELPA_2STAGE_COMPLEX_NVIDIA_GPU || kernel_id == ELPA_2STAGE_COMPLEX_NVIDIA_SM80_GPU);
+#elif ELPA_WITH_AMD_GPU_VERSION
+        useGPU = (kernel_id == ELPA_2STAGE_COMPLEX_AMD_GPU);
+#elif ELPA_WITH_SYCL_GPU_VERSION
+        useGPU = (kernel_id == ELPA_2STAGE_COMPLEX_INTEL_GPU_SYCL);
+#endif
     // cout<<"kernel id is inited as "<<kernel_id<<"\n";
     int error;
 
@@ -91,6 +105,13 @@ ELPA_Solver::ELPA_Solver(const bool isReal,
     error = elpa_setup(NEW_ELPA_HANDLE_POOL[handle_id]);
     // cout<<"elpa handle is setup\n";
     elpa_set_integer(NEW_ELPA_HANDLE_POOL[handle_id], "solver", ELPA_SOLVER_2STAGE, &error);
+#if ELPA_WITH_NVIDIA_GPU_VERSION 
+    elpa_set_integer(NEW_ELPA_HANDLE_POOL[handle_id], "nvidia-gpu", useGPU, &error);
+#elif ELPA_WITH_AMD_GPU_VERSION 
+    elpa_set_integer(NEW_ELPA_HANDLE_POOL[handle_id], "amd-gpu", useGPU, &error);
+#elif ELPA_WITH_SYCL_GPU_VERSION
+    elpa_set_integer(NEW_ELPA_HANDLE_POOL[handle_id], "intel-gpu", useGPU, &error);
+#endif 
     this->setQR(0);
     this->setKernel(isReal, kernel_id);
     // cout<<"elpa kernel is setup\n";
@@ -115,6 +136,26 @@ ELPA_Solver::ELPA_Solver(const bool isReal,
         this->desc[i] = desc[i];
 
     kernel_id = otherParameter[0];
+    if (isReal)
+#if ELPA_WITH_NVIDIA_GPU_VERSION
+        useGPU = (kernel_id == ELPA_2STAGE_REAL_NVIDIA_GPU || kernel_id == ELPA_2STAGE_REAL_NVIDIA_SM80_GPU);
+#elif ELPA_WITH_AMD_GPU_VERSION
+        useGPU = (kernel_id == ELPA_2STAGE_REAL_AMD_GPU);
+#elif ELPA_WITH_SYCL_GPU_VERSION
+        useGPU = (kernel_id == ELPA_2STAGE_REAL_INTEL_GPU_SYCL);
+#else
+        ;
+#endif
+    else
+#if ELPA_WITH_NVIDIA_GPU_VERSION
+        useGPU = (kernel_id == ELPA_2STAGE_COMPLEX_NVIDIA_GPU || kernel_id == ELPA_2STAGE_COMPLEX_NVIDIA_SM80_GPU);
+#elif ELPA_WITH_AMD_GPU_VERSION
+        useGPU = (kernel_id == ELPA_2STAGE_COMPLEX_AMD_GPU);
+#elif ELPA_WITH_SYCL_GPU_VERSION
+        useGPU = (kernel_id == ELPA_2STAGE_COMPLEX_INTEL_GPU_SYCL);
+#else
+	;
+#endif
     useQR = otherParameter[1];
     loglevel = otherParameter[2];
 
@@ -156,6 +197,13 @@ ELPA_Solver::ELPA_Solver(const bool isReal,
     elpa_set(NEW_ELPA_HANDLE_POOL[handle_id], "process_col", mypcol, &error);
     elpa_set(NEW_ELPA_HANDLE_POOL[handle_id], "blacs_context", cblacs_ctxt, &error);
     elpa_set(NEW_ELPA_HANDLE_POOL[handle_id], "solver", ELPA_SOLVER_2STAGE, &error);
+#if ELPA_WITH_NVIDIA_GPU_VERSION
+    elpa_set_integer(NEW_ELPA_HANDLE_POOL[handle_id], "nvidia-gpu", useGPU, &error);
+#elif ELPA_WITH_AMD_GPU_VERSION
+    elpa_set_integer(NEW_ELPA_HANDLE_POOL[handle_id], "amd-gpu", useGPU, &error);
+#elif ELPA_WITH_SYCL_GPU_VERSION
+    elpa_set_integer(NEW_ELPA_HANDLE_POOL[handle_id], "intel-gpu", useGPU, &error);
+#endif
     elpa_set(NEW_ELPA_HANDLE_POOL[handle_id], "debug", wantDebug, &error);
     elpa_set(NEW_ELPA_HANDLE_POOL[handle_id], "qr", useQR, &error);
     this->setQR(useQR);
@@ -260,7 +308,6 @@ int ELPA_Solver::read_cpuflag()
 int ELPA_Solver::read_real_kernel()
 {
     int kernel_id;
-
     if (const char* env = getenv("ELPA_DEFAULT_real_kernel"))
     {
         if (strcmp(env, "ELPA_2STAGE_REAL_GENERIC_SIMPLE") == 0)
@@ -335,8 +382,16 @@ int ELPA_Solver::read_real_kernel()
             kernel_id = ELPA_2STAGE_REAL_GENERIC_SIMPLE_BLOCK4;
         else if (strcmp(env, "ELPA_2STAGE_REAL_GENERIC_SIMPLE_BLOCK6") == 0)
             kernel_id = ELPA_2STAGE_REAL_GENERIC_SIMPLE_BLOCK6;
-        else
-            kernel_id = ELPA_2STAGE_REAL_GENERIC;
+	else if (strcmp(env, "ELPA_2STAGE_REAL_NVIDIA_GPU") == 0)
+	    kernel_id = ELPA_2STAGE_REAL_NVIDIA_GPU;
+	else if (strcmp(env, "ELPA_2STAGE_REAL_AMD_GPU") == 0)
+            kernel_id = ELPA_2STAGE_REAL_AMD_GPU;
+	else if (strcmp(env, "ELPA_2STAGE_REAL_INTEL_SYCL_GPU") == 0)
+            kernel_id = ELPA_2STAGE_REAL_INTEL_SYCL_GPU;
+	else if (strcmp(env, "ELPA_2STAGE_REAL_NVIDIA_SM80_GPU") == 0)
+            kernel_id = ELPA_2STAGE_REAL_NVIDIA_SM80_GPU;
+	else
+	    kernel_id = ELPA_2STAGE_REAL_GENERIC;
     }
     else
     {
@@ -412,6 +467,10 @@ int ELPA_Solver::read_complex_kernel()
             kernel_id = ELPA_2STAGE_COMPLEX_NVIDIA_GPU;
         else if (strcmp(env, "ELPA_2STAGE_COMPLEX_AMD_GPU") == 0)
             kernel_id = ELPA_2STAGE_COMPLEX_AMD_GPU;
+	else if (strcmp(env, "ELPA_2STAGE_COMPLEX_INTEL_GPU_SYCL") == 0)
+            kernel_id = ELPA_2STAGE_COMPLEX_INTEL_GPU_SYCL;
+	else if (strcmp(env, "ELPA_2STAGE_COMPLEX_NVIDIA_SM80_GPU") == 0)
+            kernel_id = ELPA_2STAGE_COMPLEX_NVIDIA_SM80_GPU;
         else
             kernel_id = ELPA_2STAGE_COMPLEX_GENERIC;
     }

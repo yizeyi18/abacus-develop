@@ -72,6 +72,7 @@ class ELPA_Solver
     int myprow;
     int mypcol;
     int useQR;
+    int useGPU;
     int wantDebug;
     int loglevel;
     std::ofstream logfile;
