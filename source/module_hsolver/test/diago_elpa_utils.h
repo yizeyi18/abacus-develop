@@ -13,7 +13,7 @@
 #include <vector>
 
 #ifdef __ELPA
-#include "module_hsolver/genelpa/elpa_new.h"
+#include "module_hsolver/my_elpa.h"
 #endif
 
 namespace LCAO_DIAGO_TEST
