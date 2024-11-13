@@ -603,7 +603,6 @@ OBJS_MODULE_RI=conv_coulomb_pot_k.o\
       ABFs_Construct-PCA.o \
       exx_opt_orb.o \
       exx_opt_orb-print.o \
-      exx_lip.o\
       Matrix_Orbs11.o\
       Matrix_Orbs21.o\
       Matrix_Orbs22.o\
