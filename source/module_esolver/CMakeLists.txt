@@ -21,7 +21,7 @@ if(ENABLE_LCAO)
       dpks_cal_e_delta_band.cpp
       set_matrix_grid.cpp
       lcao_before_scf.cpp
-      lcao_gets.cpp
+      esolver_gets.cpp
       lcao_others.cpp
       lcao_init_after_vc.cpp
   )
