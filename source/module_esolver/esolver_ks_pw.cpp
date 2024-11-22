@@ -181,12 +181,12 @@ void ESolver_KS_PW<T, Device>::before_all_runners(const Input_para& inp, UnitCel
     }
 
     //! 7) prepare some parameters for electronic wave functions initilization
-    this->p_wf_init = new psi::WFInit<T, Device>(PARAM.inp.init_wfc,
-                                                 PARAM.inp.ks_solver,
-                                                 PARAM.inp.basis_type,
-                                                 PARAM.inp.psi_initializer,
-                                                 &this->wf,
-                                                 this->pw_wfc);
+    this->p_wf_init = new psi::PSIInit<T, Device>(PARAM.inp.init_wfc,
+                                                  PARAM.inp.ks_solver,
+                                                  PARAM.inp.basis_type,
+                                                  PARAM.inp.psi_initializer,
+                                                  &this->wf,
+                                                  this->pw_wfc);
     this->p_wf_init->prepare_init(&(this->sf),
                                   &ucell,
                                   1,
@@ -547,7 +547,7 @@ void ESolver_KS_PW<T, Device>::iter_finish(const int istep, int& iter)
         }
         
         // 4) Print out electronic wavefunctions
-        if (this->wf.out_wfc_pw == 1 || this->wf.out_wfc_pw == 2)
+        if (PARAM.inp.out_wfc_pw == 1 || PARAM.inp.out_wfc_pw == 2)
         {
             std::stringstream ssw;
             ssw << PARAM.globalv.global_out_dir << "WAVEFUNC";
@@ -573,7 +573,7 @@ void ESolver_KS_PW<T, Device>::after_scf(const int istep)
     ESolver_KS<T, Device>::after_scf(istep);
 
     // 3) output wavefunctions
-    if (this->wf.out_wfc_pw == 1 || this->wf.out_wfc_pw == 2)
+    if (PARAM.inp.out_wfc_pw == 1 || PARAM.inp.out_wfc_pw == 2)
     {
         std::stringstream ssw;
         ssw << PARAM.globalv.global_out_dir << "WAVEFUNC";
@@ -821,7 +821,7 @@ void ESolver_KS_PW<T, Device>::after_all_runners()
     }
 
     //! 6) Print out electronic wave functions in real space
-    if (this->wf.out_wfc_r == 1) // Peize Lin add 2021.11.21
+    if (PARAM.inp.out_wfc_r == 1) // Peize Lin add 2021.11.21
     {
         ModuleIO::write_psi_r_1(this->psi[0], this->pw_wfc, "wfc_realspace", true, this->kv);
     }

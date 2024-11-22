@@ -52,7 +52,7 @@ void ESolver_SDFT_PW<T, Device>::before_all_runners(const Input_para& inp, UnitC
     // 2) run "before_all_runners" in ESolver_KS
     ESolver_KS_PW<T, Device>::before_all_runners(inp, ucell);
 
-    // 9) initialize the stochastic wave functions
+    // 3) initialize the stochastic wave functions
     this->stowf.init(&this->kv, this->pw_wfc->npwk_max);
     if (inp.nbands_sto != 0)
     {
@@ -75,7 +75,7 @@ void ESolver_SDFT_PW<T, Device>::before_all_runners(const Input_para& inp, UnitC
     }
     this->stowf.sync_chi0();
 
-    // 10) allocate spaces for \sqrt(f(H))|chi> and |\tilde{chi}>
+    // 4) allocate spaces for \sqrt(f(H))|chi> and |\tilde{chi}>
     size_t size = stowf.chi0->size();
     this->stowf.shchi
         = new psi::Psi<T, Device>(this->kv.get_nks(), this->stowf.nchip_max, this->wf.npwx, this->kv.ngk.data());
