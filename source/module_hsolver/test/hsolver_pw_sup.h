@@ -45,9 +45,6 @@ double& PW_Basis_K::getgk2(const int ik, const int igl) const {
     return this->gk2[igl];
 }
 
-FFT::FFT() {}
-
-FFT::~FFT() {}
 
 } // namespace ModulePW
 
