@@ -132,7 +132,7 @@ TEST_F(ChargeExtraTest, InitCEWarningQuit)
     PARAM.input.chg_extrap = "wwww";
     testing::internal::CaptureStdout();
     EXPECT_EXIT(CE.Init_CE(PARAM.input.nspin, ucell->nat, charge.rhopw->nrxx, PARAM.input.chg_extrap),
-                ::testing::ExitedWithCode(0),
+                ::testing::ExitedWithCode(1),
                 "");
     std::string output = testing::internal::GetCapturedStdout();
     EXPECT_THAT(output, testing::HasSubstr("charge extrapolation method is not available"));
