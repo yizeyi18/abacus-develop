@@ -164,7 +164,7 @@ void ESolver_KS_LCAO<TK, TR>::before_all_runners(UnitCell& ucell, const Input_pa
     // 5) initialize Hamilt in LCAO
     // * allocate H and S matrices according to computational resources
     // * set the 'trace' between local H/S and global H/S
-    LCAO_domain::divide_HS_in_frag(PARAM.globalv.gamma_only_local, pv, this->kv.get_nks(), orb_);
+    LCAO_domain::divide_HS_in_frag(PARAM.globalv.gamma_only_local, ucell , pv, this->kv.get_nks(), orb_);
 
 #ifdef __EXX
     // 6) initialize exx
@@ -294,6 +294,7 @@ void ESolver_KS_LCAO<TK, TR>::cal_force(UnitCell& ucell, ModuleBase::matrix& for
                        PARAM.inp.cal_stress,
                        PARAM.inp.test_force,
                        PARAM.inp.test_stress,
+                       ucell,
                        this->pv,
                        this->pelec,
                        this->psi,
