@@ -304,8 +304,7 @@ void Wavefunc_in_pw::produce_local_basis_in_pw(const UnitCell& ucell,
 /*						for(int is_N = 0; is_N < 2; is_N++)*/  //for rotate base
 						for(int is_N = 0; is_N < 1; is_N++)
 						{
-							if(L==0 && is_N==1) { continue;
-}
+							if(L==0 && is_N==1) { continue;}
 							if(ucell.atoms[it].ncpp.has_so)
 							{
 								const double j = std::abs(double(L+is_N) - 0.5);
@@ -370,9 +369,11 @@ void Wavefunc_in_pw::produce_local_basis_in_pw(const UnitCell& ucell,
 									for(int m = 0;m<2*L+1;m++)
 									{
 										const int lm = L*L +m;
-                                        if (iwall + 2 * L + 1 > ucell.natomwfc) {
+
+                                        if (iwall + 2 * L + 1 > ucell.natomwfc) 
+                                        {
                                             ModuleBase::WARNING_QUIT("this->wf.atomic_wfc()", "error: too many wfcs");
-}
+                                        }
                                         for (int ig = 0; ig < npw; ig++)
                                         {
                                             aux[ig] = sk[ig] * ylm(lm,ig) * chiaux[ig];
