@@ -19,11 +19,20 @@
 class AdjacentAtomInfo
 {
 public:
+	AdjacentAtomInfo() : adj_num(0) {}
 	int adj_num;
 	std::vector<int> ntype;
 	std::vector<int> natom;
 	std::vector<ModuleBase::Vector3<double>> adjacent_tau;
 	std::vector<ModuleBase::Vector3<int>> box;
+	void clear()
+	{
+		adj_num = 0;
+		ntype.clear();
+		natom.clear();
+		adjacent_tau.clear();
+		box.clear();
+	}
 };
 
 void filter_adjs(const std::vector<bool>& is_adj, AdjacentAtomInfo& adjs);
@@ -71,7 +80,7 @@ public:
 	// NAME : getNatom
 	// NAME : getAdjaentTau
 	//==========================================================
-	const int& getAdjacentNum(void)const { return adj_info.adj_num; }
+	const int& getAdjacentNum()const { return adj_info.adj_num; }
 	const int& getType(const int i) const { return adj_info.ntype[i]; }
 	const int& getNatom(const int i) const { return adj_info.natom[i]; }
 	const ModuleBase::Vector3<double>& getAdjacentTau(const int i) const { return adj_info.adjacent_tau[i]; } 
@@ -83,37 +92,17 @@ private:
 
 	const int test_deconstructor;//caoyu reconst 2021-05-24
 
-	//==========================================================
-	// MEMBER FUNCTIONS :
-	// NAME : Locate_offset (find the atom index according to pos)
-	// NAME : Find_adjacent_atom ( find adjacent atmos for offset)
-	// NAME : Distance ( between a1 and a2)
-	//==========================================================
-	int Locate_offset(
-		const UnitCell &ucell, 
-		const ModuleBase::Vector3<double> &cartesian_pos, 
-		const int &ntype, 
-		const int &nnumber)const;
-
-	void Find_adjacent_atom(
-		const int offset, 
-		std::shared_ptr<AdjacentSet> as,
-		AdjacentAtomInfo &adjs)const;
-
 //==========================================================
 // MEMBER FUNCTIONS :
 // NAME : Calculate_adjacent_site
 //==========================================================
-	ModuleBase::Vector3<double> Calculate_adjacent_site
-	(
-	    const short offset, // use offset cartesian coordiante
-	    const double &box11, const double &box12, const double &box13,
-	    const double &box21, const double &box22, const double &box23,
-	    const double &box31, const double &box32, const double &box33,
-	    const short box_x, // three dimensions of the target box
-	    const short box_y,
-	    const short box_z
-	)const;
+	ModuleBase::Vector3<double> Calculate_adjacent_site(const double x, const double y, const double z,
+							const double &box11, const double &box12, const double &box13,
+							const double &box21, const double &box22, const double &box23,
+							const double &box31, const double &box32, const double &box33,
+							const short box_x, // three dimensions of the target box
+							const short box_y,
+							const short box_z) const;
 };
 
 namespace GlobalC
