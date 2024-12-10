@@ -78,7 +78,7 @@ void Exx_LRI<Tdata>::init(const MPI_Comm &mpi_comm_in, const K_Vectors &kv_in, c
 				const double hf_Rcut = std::pow(0.75 * this->p_kv->get_nkstot_full()/nspin0 * GlobalC::ucell.omega / (ModuleBase::PI), 1.0/3.0);
 				return {{"hf_Rcut", hf_Rcut}};
 			}
-			case Conv_Coulomb_Pot_K::Ccp_Type::Hse:
+			case Conv_Coulomb_Pot_K::Ccp_Type::Erfc:
 				return {{"hse_omega", this->info.hse_omega}};
 			default:
 				throw std::domain_error(std::string(__FILE__)+" line "+std::to_string(__LINE__));	break;

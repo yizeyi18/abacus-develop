@@ -334,12 +334,16 @@ void Exx_Lip<T, Device>::qkg2_exp(const int ik, const int iq)
             this->sum2_factor += this->recip_qkg2[ig] * std::exp(-info.lambda * qkg2);
             this->recip_qkg2[ig] = sqrt(this->recip_qkg2[ig]);
         }
-        else if (Conv_Coulomb_Pot_K::Ccp_Type::Hse == info.ccp_type)
+        else if (Conv_Coulomb_Pot_K::Ccp_Type::Erfc == info.ccp_type)
         {
             if (std::abs(qkg2) < 1e-10)
                 { this->recip_qkg2[ig] = 1.0 / (2 * info.hse_omega); }
             else
                 { this->recip_qkg2[ig] = sqrt((1 - std::exp(-qkg2 / (4 * info.hse_omega * info.hse_omega))) / qkg2); }
+        }
+        else
+        {
+            throw( std::string(__FILE__) + " line " + std::to_string(__LINE__) );
         }
     }
     ModuleBase::timer::tick("Exx_Lip", "qkg2_exp");
