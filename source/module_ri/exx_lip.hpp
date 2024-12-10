@@ -544,7 +544,7 @@ void Exx_Lip::read_q_pack(const ModuleSymmetry::Symmetry& symm,
                              this->q_pack->kv_ptr->ngk.data(),
                              this->wfc_basis->npwk_max); // mohan update 2021-02-25
     //	this->q_pack->wf_ptr->init(this->q_pack->kv_ptr->get_nks(),this->q_pack->kv_ptr,this->ucell_ptr,old_pwptr,&ppcell,&GlobalC::ORB,&hm,&Pkpoints);
-    this->q_pack->wf_ptr->table_local.create(GlobalC::ucell.ntype, GlobalC::ucell.nmax_total, PARAM.globalv.nqx);
+    this->q_pack->wf_ptr->table_local.create(ucell.ntype, ucell.nmax_total, PARAM.globalv.nqx);
     // this->q_pack->wf_ptr->table_local.create(this->q_pack->wf_ptr->this->ucell_ptr->ntype, this->q_pack->wf_ptr->this->ucell_ptr->nmax_total, PARAM.globalv.nqx);
   #ifdef __LCAO
     Wavefunc_in_pw::make_table_q(GlobalC::ORB.orbital_file, this->q_pack->wf_ptr->table_local);
