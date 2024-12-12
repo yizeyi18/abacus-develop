@@ -186,7 +186,7 @@ void DeePKS<OperatorLCAO<std::complex<double>, double>>::contributeHR()
     {
         ModuleBase::timer::tick("DeePKS", "contributeHR");
 
-        GlobalC::ld.cal_projected_DM_k(this->DM, *this->ucell, *ptr_orb_, GlobalC::GridD);
+        GlobalC::ld.cal_projected_DM(this->DM, *this->ucell, *ptr_orb_, GlobalC::GridD);
         GlobalC::ld.cal_descriptor(this->ucell->nat);
         // calculate dE/dD
         GlobalC::ld.cal_gedm(this->ucell->nat);
@@ -219,7 +219,7 @@ void DeePKS<OperatorLCAO<std::complex<double>, std::complex<double>>>::contribut
     {
         ModuleBase::timer::tick("DeePKS", "contributeHR");
 
-        GlobalC::ld.cal_projected_DM_k(this->DM, *this->ucell, *ptr_orb_, GlobalC::GridD);
+        GlobalC::ld.cal_projected_DM(this->DM, *this->ucell, *ptr_orb_, GlobalC::GridD);
         GlobalC::ld.cal_descriptor(this->ucell->nat);
         // calculate dE/dD
         GlobalC::ld.cal_gedm(this->ucell->nat);
@@ -497,7 +497,7 @@ void hamilt::DeePKS<hamilt::OperatorLCAO<TK, TR>>::cal_HR_IJR(const double* hr_i
 
 inline void get_h_delta_k(int ik, double*& h_delta_k)
 {
-    h_delta_k = GlobalC::ld.H_V_delta.data();
+    h_delta_k = GlobalC::ld.H_V_delta[ik].data();
     return;
 }
 inline void get_h_delta_k(int ik, std::complex<double>*& h_delta_k)
