@@ -570,7 +570,7 @@ void ESolver_KS_LCAO<TK, TR>::iter_init(UnitCell& ucell, const int istep, const 
     }
 
     // mohan update 2012-06-05
-    this->pelec->f_en.deband_harris = this->pelec->cal_delta_eband();
+    this->pelec->f_en.deband_harris = this->pelec->cal_delta_eband(ucell);
 
     // mohan move it outside 2011-01-13
     // first need to calculate the weight according to
@@ -760,7 +760,7 @@ void ESolver_KS_LCAO<TK, TR>::hamilt2density_single(UnitCell& ucell, int istep, 
     }
 
     // 12) calculate delta energy
-    this->pelec->f_en.deband = this->pelec->cal_delta_eband();
+    this->pelec->f_en.deband = this->pelec->cal_delta_eband(ucell);
 }
 
 //------------------------------------------------------------------------------

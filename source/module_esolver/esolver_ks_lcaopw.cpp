@@ -166,7 +166,7 @@ namespace ModuleESolver
         // deband is calculated from "output" charge density calculated
         // in sum_band
         // need 'rho(out)' and 'vr (v_h(in) and v_xc(in))'
-        this->pelec->f_en.deband = this->pelec->cal_delta_eband();
+        this->pelec->f_en.deband = this->pelec->cal_delta_eband(ucell);
 
         ModuleBase::timer::tick("ESolver_KS_LIP", "hamilt2density_single");
     }
