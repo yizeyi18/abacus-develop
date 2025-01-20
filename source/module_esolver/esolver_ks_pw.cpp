@@ -212,7 +212,7 @@ void ESolver_KS_PW<T, Device>::before_all_runners(UnitCell& ucell, const Input_p
                                                    this->kv,
                                                    this->ppcell,
                                                    *this->pw_wfc);
-    allocate_psi(this->psi, this->kv.get_nks(), this->kv.ngk.data(), PARAM.inp.nbands, this->pw_wfc->npwk_max);
+    allocate_psi(this->psi, this->kv.get_nks(), this->kv.ngk, PARAM.inp.nbands, this->pw_wfc->npwk_max);
     this->p_psi_init->prepare_init(PARAM.inp.pw_seed);
 
     this->kspw_psi = PARAM.inp.device == "gpu" || PARAM.inp.precision == "single"
