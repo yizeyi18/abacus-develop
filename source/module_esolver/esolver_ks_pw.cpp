@@ -26,7 +26,7 @@
 #include "module_hsolver/diago_iter_assist.h"
 #include "module_hsolver/hsolver_pw.h"
 #include "module_hsolver/kernels/dngvd_op.h"
-#include "module_hsolver/kernels/math_kernel_op.h"
+#include "module_base/kernels/math_kernel_op.h"
 #include "module_io/berryphase.h"
 #include "module_io/cube_io.h"
 #include "module_io/get_pchg_pw.h"
@@ -73,7 +73,7 @@ ESolver_KS_PW<T, Device>::ESolver_KS_PW()
 #if ((defined __CUDA) || (defined __ROCM))
     if (this->device == base_device::GpuDevice)
     {
-        hsolver::createGpuBlasHandle();
+        ModuleBase::createGpuBlasHandle();
         hsolver::createGpuSolverHandle();
         container::kernels::createGpuBlasHandle();
         container::kernels::createGpuSolverHandle();
@@ -101,7 +101,7 @@ ESolver_KS_PW<T, Device>::~ESolver_KS_PW()
     if (this->device == base_device::GpuDevice)
     {
 #if defined(__CUDA) || defined(__ROCM)
-        hsolver::destoryBLAShandle();
+        ModuleBase::destoryBLAShandle();
         hsolver::destroyGpuSolverHandle();
         container::kernels::destroyGpuBlasHandle();
         container::kernels::destroyGpuSolverHandle();
